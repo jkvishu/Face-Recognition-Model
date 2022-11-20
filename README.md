@@ -1,5 +1,6 @@
-# Face-Recognition-API
-Simple face recognition api with express.js and mongoose
+# Face-Recognition-Model
+Simple face recognition model with UI 
+Build with mongoose and Express.js and Face-api.js
 <h1 align="centre">Steps to use this api</h1>
 <h3>Step:1 You must have brew installed on your system</h3>
 <p>TO install brew paste this command in your terminal
