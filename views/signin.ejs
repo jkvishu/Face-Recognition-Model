@@ -1,0 +1,53 @@
+<%- include('./includes/header.ejs') %>
+    <div class="signupFrm">
+        <div class="form">
+            <h1 class="title">Login</h1>
+
+            <div id="camera" class="inputContainer camera-placeholder"></div>
+
+            <button class="captureBtn" onclick="signup()">Login</button>
+
+            <div id="del">
+                <a class="log" href="/signup" style="float:right">Sign up ?</a>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"></script>
+        <script>
+            Webcam.set({
+                width: 400,
+                height: 300,
+                image_format: 'jpeg',
+                jpeg_quality: 100
+            });
+            Webcam.attach('#camera');
+
+            function signup() {
+                Webcam.snap(async (uri) => {
+                    Webcam.freeze();
+
+                    const blob = await (await fetch(uri)).blob();
+                    const file = new File([blob], 'photo.jpg', { type: "image/jpeg", lastModified: new Date() });
+
+                    const form = new FormData();
+                    form.append("photo", file);
+
+                    const response = await fetch("/api/signin", {
+                        method: 'POST',
+                        body: form,
+                    });
+
+                    const res = await response.json();
+                    if (res.success) {
+                        alert(`
+                            Name : ${res.name}
+                            Email: ${res.email}
+                            Date : ${res.date}
+                        `);
+                    } else {
+                        alert('There was no user found, please try to sign up!');
+                    }
+                });
+            }
+        </script>
+    </div>
+<%- include('./includes/footer.ejs') %>
